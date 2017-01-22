@@ -7,6 +7,7 @@ function! s:abbrev_by_mode(abbr, latex, unicode)
 		\a:unicode."'"
 endfunction
 
+" should space abbreviate?
 function! logic#ssabbr(line, col)
     let rev_cline_tpos = split(a:line[:a:col], '', '')
     if len(rev_cline_tpos) > 0
@@ -33,6 +34,7 @@ function! logic#enable()
     call s:abbrev_by_mode('Pos', '\Diamond ', '◇')
     call s:abbrev_by_mode('Ss', '\vdash ', '⊦')
     call s:abbrev_by_mode('Cont', '\bot ', '⊥')
+    call s:abbrev_by_mode('N>', '\boxright', '')
     inoreabbrev <buffer> ( ()<Left>
     inoreabbrev <buffer> [ []<Left>
     inoreabbrev <buffer> \{ \{\}<Left><Left>
@@ -41,20 +43,13 @@ endfunction
 
 function! logic#disable()
     silent! iunmap <buffer> <space>
-    silent! iunabbrev <buffer> E
-    silent! iunabbrev <buffer> A
-    silent! iunabbrev <buffer> in
-    silent! iunabbrev <buffer> >
-    silent! iunabbrev <buffer> -
-    silent! iunabbrev <buffer> .
-    silent! iunabbrev <buffer> \|
-    silent! iunabbrev <buffer> Nec
-    silent! iunabbrev <buffer> Pos
+    for abbr in s:abbrevs
+	exe "silent! iunabbrev <buffer> ".abbr
+    endfor
     exe "silent! iunabbrev <buffer> ("
     silent! iunabbrev <buffer> [
     exe "silent! iunabbrev <buffer> \\{"
-    silent! iunabbrev <buffer> As
-    silent! iunabbrev <buffer> Cont
+    let s:abbrevs = []
     let b:logic_enabled = 0
 endfunction
 

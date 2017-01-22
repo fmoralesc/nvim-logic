@@ -1,9 +1,10 @@
-" logic.vim: A plugin for writing logic
+" logic.vim:
+" A plugin for writing logic
 
 let s:default_conf = {
 	    \'mode' : 'latex',
+	    \'cmd' : 1,
 	    \'default_maps': 1,
-	    \'default_cmd': 0
 	    \}
 
 function! s:ensure_default(key)
@@ -20,16 +21,13 @@ else
     endfor
 endif
 
-if g:logic#conf.default_cmd
+if g:logic#conf.cmd
     command! Logic call logic#toggle()
 endif
-nnoremap <Plug>(logic-toggle) :call logic#toggle()<cr>
-inoremap <Plug>(logic-toggle) <C-O>:call logic#toggle()<cr>
-nnoremap <Plug>(logic-mode-toggle) :call logic#toggle_mode()<cr>
-inoremap <Plug>(logic-mode-toggle) <C-O>:call logic#toggle_mode()<cr>
+
 if g:logic#conf.default_maps
-    nnoremap <leader>lg <Plug>(logic-toggle)
-    inoremap <leader>lg <Plug>(logic-toggle)
-    nnoremap <leader>lm <Plug>(logic-mode-toggle)
-    inoremap <leader>lm <Plug>(logic-mode-toggle)
+    nnoremap <silent> <leader>lg :call logic#toggle()<cr>
+    inoremap <silent> <leader>lg <C-O>:call logic#toggle()<cr>
+    nnoremap <silent> <leader>lm :call logic#toggle_mode()<cr>
+    inoremap <silent> <leader>lm <C-O>:call logic#toggle_mode()<cr>
 endif
