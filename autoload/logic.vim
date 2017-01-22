@@ -39,6 +39,9 @@ function! logic#enable()
     inoreabbrev <buffer> [ []<Left>
     inoreabbrev <buffer> \{ \{\}<Left><Left>
     let b:logic_enabled = 1
+    if exists('g:worldslice#sigils')
+	let g:worldslice#sigils.logic = '%#SLBoolean#l'
+    endif
 endfunction
 
 function! logic#disable()
@@ -51,6 +54,9 @@ function! logic#disable()
     exe "silent! iunabbrev <buffer> \\{"
     let s:abbrevs = []
     let b:logic_enabled = 0
+    if exists('g:worldslice#sigils')
+	call remove(g:worldslice#sigils, 'logic')
+    endif
 endfunction
 
 function! logic#toggle()
